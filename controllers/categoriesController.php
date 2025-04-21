@@ -30,13 +30,17 @@ class categoriesController extends controller {
             }
             $offset = ($currentPage * $limit) - $limit;
 
+            $filters = array('category'=>$id);
+
             $dados['category_filter'] = $categories->getCategoryTree($id);   
             
-            $dados['list'] = $products->getList($offset, $limit);
+            $dados['list'] = $products->getList($offset, $limit, $filters);
 
-            $dados['totalItems'] = $products->getTotal();
+            $dados['totalItems'] = $products->getTotal($filters);
             $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
             $dados['currentPage'] = $currentPage;
+
+            $dados['id_category'] = $id;
 
             $dados['categories'] = $categories->getList();
 
