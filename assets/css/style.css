@@ -401,3 +401,9 @@ footer h3 {
 .filtercontent{
 	margin-top: 0.1px;
 }
+.filteritem{
+	height: 25px;
+}
+.filteritem label{
+	font-weight: normal;
+}
