@@ -15,7 +15,9 @@ class Products extends model
             WHERE " . implode(' AND ', $where);
         $sql = $this->db->prepare($sql);
 
-        $this->buildWhere($filters, $sql);
+        // $this->buildWhere($filters, $sql);
+        $this->bindWhere($filters, $sql);
+        
         $sql->execute();
 
         if ($sql->rowCount() > 0) {
@@ -99,18 +101,13 @@ class Products extends model
 
     public function getMaxPrice($filters = array())
     {
-        $where = $this->buildWhere($filters);
-
         $sql = "SELECT
         price
         FROM products
-        WHERE " . implode(' AND ', $where) . "
         ORDER BY price DESC
         LIMIT 1";
 
         $sql = $this->db->prepare($sql);
-
-        $this->bindWhere($filters, $sql);
 
         $sql->execute();
 
@@ -271,6 +268,18 @@ class Products extends model
             $where[] = "id IN (select id_product from products_options where products_options.p_value IN ('" . implode("','", $filters['options']) . "'))";
         }
 
+        /* filtro para slider de preços (slider) */
+        if (!empty($filters['slider0'])) {
+            $where[] = "price >= :slider0";
+        }
+        if (!empty($filters['slider1'])) {
+            $where[] = "price <= :slider1";
+        }
+
+        if(!empty($filters['serachTerm'])){
+            $where[] = "name LIKE :searchTerm";
+        }
+
         return $where;
     }
 
@@ -278,6 +287,18 @@ class Products extends model
     {
         if (!empty($filters['category'])) {
             $sql->bindValue(":id_category", $filters['category']);
+        }
+
+        if (!empty($filters['slider0'])) {
+            $sql->bindValue(":slider0", $filters['slider0']);
+        }
+
+        if (!empty($filters['slider1'])) {
+            $sql->bindValue(":slider1", $filters['slider1']);
+        }
+
+        if(!empty($filters['serachTerm'])){
+            $sql->bindValue(":searchTerm", '%'.$filters['searchTerm'].'%');
         }
     }
 }

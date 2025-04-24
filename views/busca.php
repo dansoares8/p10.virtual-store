@@ -1,3 +1,6 @@
+<h3>Você está procurando por: "<?php echo $searchTerm; ?>" </h3>
+
+
 <div class="row">
     <?php $a = 0; ?>
     <?php foreach ($list as $product_item): ?>

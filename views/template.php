@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8" />
-	<title>Loja 2.0</title>
+	<title>Daniel Informática v2.0</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/bootstrap.min.css" type="text/css" />
@@ -37,21 +37,42 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-2 logo">
-					<a href="<?php echo BASE_URL; ?>"><img src="<?php echo BASE_URL; ?>assets/images/logo.png" /></a>
+					<a href="<?php echo BASE_URL; ?>"><img src="<?php echo BASE_URL; ?>assets/images/3logo.png" /></a>
 				</div>
 				<div class="col-sm-7">
 					<div class="head_help">(11) 9999-9999</div>
-					<div class="head_email">contato@<span>loja2.com.br</span></div>
+					<div class="head_email">contato@<span>danielinformatica.com.br</span></div>
 
 					<div class="search_area">
-						<form method="GET">
-							<input type="text" name="s" required placeholder="<?php $this->lang->get('SEARCHFORITEM'); ?>" />
+						<form action="<?php echo BASE_URL; ?>busca" method="GET">
+							<input type="text" name="s" value="<?php echo (!empty($viewData['searchTerm']))?$viewData['searchTerm']:''; ?>" required placeholder="<?php $this->lang->get('SEARCHFORITEM'); ?>" />
 							<select name="category">
 								<option value=""><?php $this->lang->get('ALLCATEGORIES'); ?></option>
+
+
+								<?php foreach ($viewData['categories'] as $cat): ?>
+									<option <?php echo ($viewData['category']==$cat['id'])?'selected="selected"':''; ?> value="<?php echo $cat['id']; ?>"><?php echo $cat['name']; ?></option>
+								
+								<?php
+								if (count($cat['subs']) > 0) {
+									$this->loadView('search_subcategory', array(
+										'subs' => $cat['subs'],
+										'level' => 1,
+										'category' => $viewData['category']
+									));
+								}
+								?>
+							<?php endforeach; ?>
+
+
+
+
+
 							</select>
 							<input type="submit" value="" />
 						</form>
 					</div>
+
 				</div>
 				<div class="col-sm-3">
 					<a href="<?php echo BASE_URL; ?>cart">
@@ -130,8 +151,8 @@
 								<div class="filterbox">
 									<div class="filtertittle"><?php $this->lang->get('PRICE'); ?></div>
 									<div class="filtercontent">
-										<input type="hidden" name="filter[slider0]" />
-										<input type="hidden" name="filter[slider1]" />
+										<input type="hidden" id="slider0" name="filter[slider0]" value="<?php echo $viewData['filters']['slider0']; ?>" />
+										<input type="hidden" id="slider1" name="filter[slider1]" value="<?php echo $viewData['filters']['slider1']; ?>" />
 										<input type="text" id="amount" readonly>
 										<div id="slider-range"></div>
 
@@ -297,9 +318,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-4">
-						<a href="<?php echo BASE_URL; ?>"><img width="150" src="<?php echo BASE_URL; ?>assets/images/logo.png" /></a><br /><br />
-						<strong>Slogan da Loja Virtual</strong><br /><br />
-						Endereço da Loja Virtual
+						<a href="<?php echo BASE_URL; ?>"><img width="150" src="<?php echo BASE_URL; ?>assets/images/3logo.png" /></a><br /><br />
 					</div>
 					<div class="col-sm-8 linkgroups">
 						<div class="row">
@@ -344,12 +363,9 @@
 		<div class="copyright">
 			<div class="container">
 				<div class="row">
-					<div class="col-sm-6">© <span><?php $this->lang->get('STORE'); ?> 2.0</span> - <?php $this->lang->get('ALLRIGHTRESERVED'); ?>.</div>
+					<div class="col-sm-6">© <span><?php $this->lang->get('STORE'); ?> <?php $this->lang->get('DANIELINFORMATICA'); ?> </span> - <?php $this->lang->get('ALLRIGHTRESERVED'); ?>.</div>
 					<div class="col-sm-6">
 						<div class="payments">
-							<img src="<?php echo BASE_URL; ?>assets/images/visa.png" />
-							<img src="<?php echo BASE_URL; ?>assets/images/visa.png" />
-							<img src="<?php echo BASE_URL; ?>assets/images/visa.png" />
 							<img src="<?php echo BASE_URL; ?>assets/images/visa.png" />
 						</div>
 					</div>
