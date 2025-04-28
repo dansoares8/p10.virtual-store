@@ -9,7 +9,7 @@ $( function() {
         $( "#amount" ).val( "R$" + ui.values[ 0 ] + " - R$" + ui.values[ 1 ] );
       },
       change: function ( event, ui ){
-        $('#slider'+ui.handleIndex).val(ul.value);
+        $('#slider'+ui.handleIndex).val(ui.value);
         $('.filterarea form').submit();
       }
     });

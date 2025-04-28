@@ -120,10 +120,18 @@ class Products extends model
         }
     }
 
-    public function getList($offset = 0, $limit = 3, $filters = array())
-    {
+    public function getList($offset = 0, $limit = 3, $filters = array(), $random = false){
 
         $array = array();
+
+        $orderBySQL = '';
+        if($random == true){
+            $orderBySQL = "ORDER BY RAND()";
+        }
+
+        if(!empty($filters['toprated'])){
+            $orderBySQL = "ORDER BY rating DESC";
+        }
 
         $where = $this->buildWhere($filters);
 
@@ -135,7 +143,8 @@ class Products extends model
                 as category_name 
         FROM 
         products 
-        WHERE " . implode(' AND ', $where) . "
+        WHERE " . implode(' AND ', $where)."
+        ".$orderBySQL."
         LIMIT $offset, $limit";
         $sql = $this->db->prepare($sql);
 
@@ -264,6 +273,10 @@ class Products extends model
             $where[] = "sale = '1'";
         }
 
+        if(!empty($filters['featured'])){
+            $where[] = "featured = '1'";
+        }
+
         if (!empty($filters['options'])) {
             $where[] = "id IN (select id_product from products_options where products_options.p_value IN ('" . implode("','", $filters['options']) . "'))";
         }
@@ -276,7 +289,7 @@ class Products extends model
             $where[] = "price <= :slider1";
         }
 
-        if(!empty($filters['serachTerm'])){
+        if(!empty($filters['searchTerm'])){
             $where[] = "name LIKE :searchTerm";
         }
 
@@ -285,6 +298,7 @@ class Products extends model
 
     private function bindWhere($filters, &$sql)
     {
+
         if (!empty($filters['category'])) {
             $sql->bindValue(":id_category", $filters['category']);
         }
@@ -297,8 +311,29 @@ class Products extends model
             $sql->bindValue(":slider1", $filters['slider1']);
         }
 
-        if(!empty($filters['serachTerm'])){
+        if(!empty($filters['searchTerm'])){
             $sql->bindValue(":searchTerm", '%'.$filters['searchTerm'].'%');
         }
+    }
+
+
+    public function getProductInfo($id){
+
+        $array = array();
+
+        if(!empty($id)){
+            $sql = "SELECT * FROM products WHERE id = :id"; 
+            $sql = $this->db->prepare($sql);
+            $sql->bindValue(':id', $id);
+            $sql->execute();
+
+            if($sql->rowCount() > 0){
+
+                $array = $sql->fetch();
+
+            }
+        }
+
+        return $array;
     }
 }
