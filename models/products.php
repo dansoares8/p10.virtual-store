@@ -322,7 +322,9 @@ class Products extends model
         $array = array();
 
         if(!empty($id)){
-            $sql = "SELECT * FROM products WHERE id = :id"; 
+            $sql = "SELECT 
+            * 
+            FROM products WHERE id = :id"; 
             $sql = $this->db->prepare($sql);
             $sql->bindValue(':id', $id);
             $sql->execute();
