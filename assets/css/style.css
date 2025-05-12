@@ -435,3 +435,44 @@ footer h3 {
 .widget_price span{
 	color: #b6b6b6;
 }
+
+.original_price{
+	font-size: 20px;
+	font-weight: bold;
+}
+.price_from{
+	font-size: 14px;
+	color: #8b8b8b;
+}
+.addtocartform{
+	margin-top: 20px;
+}
+.addtocart_qt{
+	height: 35px;
+	width: 35px;
+	text-align: center;
+	border: 1px solid #888888;
+	outline: 0;
+	float: left;
+}
+.addtocartform button{
+	width: 30px;
+	height: 35px;
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #888888;
+	background-color: #fff;
+	float: left;
+}
+.addtocart_submit{
+	height: 35px;
+	float: left;
+	margin-left: 10px;
+	border: 1px solid #59b210;
+	font-weight: bold;
+	background-color: #59b210;
+	border-radius: 3px;
+	color: white;
+	padding-left: 20px;
+	padding-right: 20px;
+}
