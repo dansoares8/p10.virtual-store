@@ -1,21 +1,19 @@
 <?php
-class buscaController extends controller
-{
+class buscaController extends controller{
 
     private $user;
 
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
     }
 
-    public function index()
-    {
-        $dados = array();
-
+    public function index(){
+        $store = new Store();
         $products = new Products();
         $categories = new Categories();
         $f = new Filters();
+
+        $dados = $store->getTemplateData();
 
         if(!empty($_GET['s'])){
             $searchTerm = $_GET['s'];
@@ -44,13 +42,13 @@ class buscaController extends controller
             $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
             $dados['currentPage'] = $currentPage;
 
-            $dados['categories'] = $categories->getList();
-
             $dados['filters'] = $f->getFilters($filters);
             $dados['filters_selected'] = $filters;
 
             $dados['searchTerm'] = $searchTerm;
             $dados['category'] = $category;
+
+            $dados['sidebar'] = true;
 
             $this->loadTemplate('busca', $dados);
         } else {

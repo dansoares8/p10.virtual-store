@@ -13,11 +13,12 @@ class categoriesController extends controller {
 
 
     public function enter($id){
-        $dados = array();
-
+        $store = new Store();
         $products = new Products();
         $categories = new Categories();
         $f = new Filters();
+
+        $dados = $store->getTemplateData();
 
         $dados['category_name'] = $categories->getCategoryName($id);
 
@@ -32,9 +33,6 @@ class categoriesController extends controller {
             }
             $offset = ($currentPage * $limit) - $limit;
 
-/*  Logo abaixo estou adicionando código que o Gemini me deu, para corrigir o erro, e corrigiu o erro, mas não sei se outros erros podem vir a aparecer, 
-*   Fica aqui esse comentário, para registro.
-*/
 
             // Pega filtros da URL, se existirem (igual no homeController)
             $filters_selected = array(); 
@@ -58,8 +56,15 @@ class categoriesController extends controller {
             $dados['categories'] = $categories->getList();
 
             // Carrega os filtros disponíveis com base nos filtros selecionados
-            $dados['filters'] = $f->getFilters($filters_selected); // <-- Adicione esta linha
-            $dados['filters_selected'] = $filters_selected; // <-- Adicione esta linha
+            $dados['filters'] = $f->getFilters($filters_selected);
+            $dados['filters_selected'] = $filters_selected;
+
+            $dados['searchTerm'] = '';
+            $dados['category'] = '';
+
+
+            $dados['sidebar'] = true;
+
 
             $this->loadTemplate('categories', $dados); // Passa os dados atualizados
 
@@ -69,32 +74,4 @@ class categoriesController extends controller {
     }
 
 }
-
-
-
-            /*
-            // Isso eu adicionei durante as aulas, há um erro não consegui resolver.
-
-            $filters = array('category'=>$id);
-
-            $dados['category_filter'] = $categories->getCategoryTree($id);   
-            
-            $dados['list'] = $products->getList($offset, $limit, $filters);
-
-            $dados['totalItems'] = $products->getTotal($filters);
-            $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
-            $dados['currentPage'] = $currentPage;
-
-            $dados['id_category'] = $id;
-
-            $dados['categories'] = $categories->getList();
-
-            $this->loadTemplate('categories', $dados);
-
-        } else {
-            header("Location: ".BASE_URL);
-        }
-    }
-
-}*/
 

@@ -60,6 +60,17 @@
     </div>
     <div class="col-sm-6">
         <h3><?php $this->lang->get('PRODUCT_REVIEWS'); ?></h3>
+        <?php foreach($product_rates as $rate): ?>
+            <strong><?php echo $rate['user_name']; ?></strong>:<br/>
+            "<?php echo $rate['comment']; ?>"<br/>
+            <strong>
+                <?php for($q=0;$q<intval($rate['points']);$q++): ?>
+                    <img src="<?php echo BASE_URL; ?>assets/images/star.svg" border="0" height="15"/>
+                <?php endfor; ?>
+            </strong>
+
+            <hr/>
+        <?php endforeach; ?>
 
     </div>
 </div>

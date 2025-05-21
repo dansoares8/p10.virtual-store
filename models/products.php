@@ -378,13 +378,19 @@ class Products extends model
                 } else {
                     $options[$ok]['value'] = '';
                 }
-                
-                
             }
         }
 
         return $options;
+    }
 
+    public function getRates($id, $qt){
+        $array = array();
+
+        $rates = new Rates();
+        $array = $rates->getRates($id, $qt);
+
+        return $array;
     }
 
 

@@ -9,13 +9,13 @@ class homeController extends controller
         parent::__construct();
     }
 
-    public function index()
-    {
-        $dados = array();
-
+    public function index(){
+        $store = new Store();
         $products = new Products();
         $categories = new Categories();
         $f = new Filters();
+
+        $dados = $store->getTemplateData();
 
         $filters = array();
         if (!empty($_GET['filter']) && is_array($_GET['filter'])) {
@@ -37,15 +37,15 @@ class homeController extends controller
         $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
         $dados['currentPage'] = $currentPage;
 
-        $dados['categories'] = $categories->getList();
-
-        $dados['widget_featured1'] = $products->getList(0, 5, array('featured'=>'1'), true);
-        $dados['widget_featured2'] = $products->getList(0, 3, array('featured'=>'1'), true);
-        $dados['widget_sale'] = $products->getList(0, 3, array('sale'=>'1'), true);
-        $dados['widget_toprated'] = $products->getList(0, 3, array('toprated'=>'1'));
+        
 
         $dados['filters'] = $f->getFilters($filters);
         $dados['filters_selected'] = $filters;
+
+        $dados['searchTerm'] = '';
+        $dados['category'] = '';
+
+        $dados['sidebar'] = true;
 
         $this->loadTemplate('home', $dados);
     }
