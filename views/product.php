@@ -40,12 +40,19 @@
         <h5 class="price_from"><b>De R$:  </b><strike><?php echo number_format($product_info['price_from'], 2); ?></strike></h5>
         <h4 class="original_price"><b>Por R$:  </b><?php echo number_format($product_info['price'], 2); ?></h4>        
 
-        <form class="addtocartform" method="post">
+
+        <!-- Adicionar ao carrinho: -->
+        <form class="addtocartform" method="post" action="<?php echo BASE_URL; ?>cart/add">
+            <input type="hidden" name="id_product" value="<?php echo $product_info['id']; ?>" />
+            <input type="hidden" name="qt_product" value="1" />
             <button data-action="decrease">-</button>
             <input type="text" name="qt" value="1" class="addtocart_qt" disabled />
             <button data-action="increase">+</button>
             <input class="addtocart_submit" type="submit" value="<?php $this->lang->get('ADD_TO_CART'); ?>">
         </form>
+
+
+
     </div>
 </div>
 

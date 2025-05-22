@@ -246,7 +246,11 @@
 	</footer>
 	<script type="text/javascript">
 		var BASE_URL = '<?php echo BASE_URL; ?>';
-		var maxslider = <?php echo $viewData['filters']['maxslider']; ?>;
+
+		<?php if(isset($viewData['filters'])): ?>
+			var maxslider = <?php echo $viewData['filters']['maxslider']; ?>;
+		<?php endif; ?>
+
 		var slidervalues = [0, maxslider];
 	</script>
 	<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/jquery-3.7.1.min.js"></script>

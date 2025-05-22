@@ -1,5 +1,7 @@
 
 $( function() {
+
+  if(typeof maxslider != 'undefined'){
     $( "#slider-range" ).slider({
       range: true,
       min: 0,
@@ -13,7 +15,11 @@ $( function() {
         $('.filterarea form').submit();
       }
     });
-    $( "#amount" ).val( "R$" + $( "#slider-range" ).slider( "values", 0 ) +
+  }
+
+
+
+  $( "#amount" ).val( "R$" + $( "#slider-range" ).slider( "values", 0 ) +
       " - R$" + $( "#slider-range" ).slider( "values", 1 ) );
 
 
@@ -36,6 +42,7 @@ $( function() {
       qt = qt + 1;
     }
     $('.addtocart_qt').val(qt);
+    $('input[name=qt_product]').val(qt);
   });
 
   });
